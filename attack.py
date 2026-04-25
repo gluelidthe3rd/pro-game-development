@@ -40,6 +40,10 @@ def draw(red,yellow,r_bullet,y_bullet,r_health,y_health):
     screen.blit(y_health_text,(10,10))
     screen.blit(y_ss,(yellow.x,yellow.y))
     screen.blit(r_ss,(red.x,red.y))
+    for i in r_bullet:
+        pygame.draw.rect(screen,R,i)
+    for i in y_bullet:
+        pygame.draw.rect(screen,Y,i)
     pygame.display.update()
 def y_move(keys_pressed,yellow):
     if keys_pressed[pygame.K_a]and yellow.x-vel>0:
