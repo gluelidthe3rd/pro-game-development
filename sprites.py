@@ -8,7 +8,15 @@ class Player(pygame.sprite.Sprite):
         super().__init__()
         self.image = pygame.image.load("IMAGES\\r.png")
         self.image = pygame.transform.scale(self.image,(70,100))
-        self.rect = self.image.get_rect()#
+        self.rect = self.image.get_rect()
+        self.rect.x = random.randint(0,700)
+        self.rect.y = random.randint(0,500)
+class Rock(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.image = pygame.image.load("IMAGES\\as.png")
+        self.image= pygame.transform.scale(self.image,(80,80))
+        self.rect = self.image.get_rect()
         self.rect.x = random.randint(0,700)
         self.rect.y = random.randint(0,500)
     def update(self,keys_pressed):
@@ -28,11 +36,14 @@ class Player(pygame.sprite.Sprite):
             self.rect.top=0
         if self.rect.bottom>500:
             self.rect.bottom=500
-
+asteriod = pygame.sprite.Group()
 sprite = pygame.sprite.Group()
 for i in range(10):
+    ast = Rock()
     player1 = Player()
     sprite.add(player1)
+    sprite.add(ast)
+
     
 run = True
 while run:
@@ -43,6 +54,7 @@ while run:
     if i.type == pygame.MOUSEBUTTONDOWN:
         keys_pressed= pygame.key.get_pressed()
         player1.update(keys_pressed)
+        ast.update(keys_pressed)
         screen.blit(pygame.image.load("IMAGES\space1.png"),(0,0))
         sprite.draw(screen)
         pygame.display.update()
