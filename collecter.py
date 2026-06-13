@@ -38,14 +38,14 @@ all_sprites=pygame.sprite.Group()
 plastics=pygame.sprite.Group()
 for i in range(40):
     items=Recycle(random.choice(images))
-    items.rect.x=random.randrange(600)
-    items.rect.y=random.randrange(600)
+    items.rect.x=random.randrange(575)
+    items.rect.y=random.randrange(575)
     item_list.add(items)
     all_sprites.add(items)
 for i in range(10):
     items=Nonrecycle()
-    items.rect.x=random.randrange(600)
-    items.rect.y=random.randrange(600)
+    items.rect.x=random.randrange(575)
+    items.rect.y=random.randrange(575)
     plastics.add(items)
     all_sprites.add(items)
 bin=Bin()
@@ -57,8 +57,8 @@ while run:
         if i.type ==pygame.QUIT:
             run=False
     time_elapsed=time.time()-starttime
-    if time_elapsed >=60:
-        if score >35:
+    if time_elapsed >=60 or score>34:
+        if score >34:
             changebg("win.jpg")
         else:
             changebg("lose.jpg")
@@ -71,13 +71,22 @@ while run:
             if bin.rect.y>0:
                 bin.rect.y-=5 
         if keys[pygame.K_s]:
-            if bin.rect.y<530:
+            if bin.rect.y<590:
                 bin.rect.y+=5
         if keys[pygame.K_d]:
-            if bin.rect.x<530:
+            if bin.rect.x<590:
                 bin.rect.x+=5
         if keys[pygame.K_a]:
             if bin.rect.x>0:
                 bin.rect.x-=5
+        item_hit_list = pygame.sprite.spritecollide(bin,item_list,True)
+        plastics_hit_list=pygame.sprite.spritecollide(bin,plastics,True)
+        for i in item_hit_list:
+            score+=1
+            text=font.render("score:"+str(score),True,"black")
+        for i in plastics_hit_list:
+            score-=5
+            text=font.render("score:"+str(score),True,"black")
+        screen.blit(text,(400,50))
         all_sprites.draw(screen)
     pygame.display.update()
